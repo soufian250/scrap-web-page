@@ -12,13 +12,13 @@ soup = BeautifulSoup(r.content, 'html.parser')
 
 for tr in soup.find_all('div',class_='featured-car-img'):
 
-    url = "URL: "
+   
     values = [data for data in tr.find_all('img',class_='img-responsive')]
     for value in values:
         
         ## Set up the image URL and filename
         image_url = value.get('src')
-        filename = image_url.split("/")[-1]
+        filename = value.get('alt')
 
         # Open the url image, set stream to True, this will return the stream content.
         r = requests.get(image_url, stream = True)
@@ -30,7 +30,7 @@ for tr in soup.find_all('div',class_='featured-car-img'):
             
             # Open a local file with wb ( write binary ) permission.
             with open(filename,'wb') as f:
-                shutil.copyfileobj(r.raw, f)
+               shutil.copyfileobj(r.raw, f)
                 
             print('Image sucessfully Downloaded: ',filename)
         else:
