@@ -18,7 +18,9 @@ for tr in soup.find_all('div',class_='featured-car-img'):
         
         ## Set up the image URL and filename
         image_url = value.get('src')
+        ext = image_url.split(".")[-1]
         filename = value.get('alt')
+        
 
         # Open the url image, set stream to True, this will return the stream content.
         r = requests.get(image_url, stream = True)
@@ -28,6 +30,7 @@ for tr in soup.find_all('div',class_='featured-car-img'):
             # Set decode_content value to True, otherwise the downloaded image file's size will be zero.
             r.raw.decode_content = True
             
+            filename = filename+'.'+ext
             # Open a local file with wb ( write binary ) permission.
             with open(filename,'wb') as f:
                shutil.copyfileobj(r.raw, f)
